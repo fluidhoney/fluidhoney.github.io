@@ -133,6 +133,120 @@
             object-fit: contain;
         }
 
+        .music-player {
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+        }
+
+        .music-player h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            text-align: center;
+        }
+
+        .player-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+
+        .player-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            flex: 1;
+            font-size: 0.9em;
+        }
+
+        .player-button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .player-button:active {
+            transform: translateY(0);
+        }
+
+        .player-button.small {
+            flex: 0.5;
+            padding: 10px 10px;
+        }
+
+        .song-dropdown {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #667eea;
+            border-radius: 6px;
+            font-size: 1em;
+            background: white;
+            color: #333;
+            cursor: pointer;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .song-dropdown:hover {
+            border-color: #764ba2;
+        }
+
+        .song-dropdown:focus {
+            outline: none;
+            border-color: #764ba2;
+            box-shadow: 0 0 5px rgba(118, 75, 162, 0.3);
+        }
+
+        .progress-container {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #667eea;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .time-display {
+            font-size: 0.85em;
+            color: #666;
+            text-align: center;
+        }
+
+        .now-playing {
+            text-align: center;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+            min-height: 20px;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 10px;
+        }
+
         @media (max-width: 480px) {
             .header h1 {
                 font-size: 2em;
@@ -142,6 +256,14 @@
                 padding: 15px 25px;
                 font-size: 1em;
                 min-height: 55px;
+            }
+
+            .music-player {
+                padding: 15px;
+            }
+
+            .player-controls {
+                gap: 8px;
             }
         }
     </style>
@@ -154,30 +276,166 @@
 
         <div class="buttons-container">
             <a href="https://x.com/fluid_honey" target="_blank" class="link-button twitter">
-                <span class="icon"><img src="https://raw.githubusercontent.com/fluidhoney/fluidhoney.github.io/main/twitter.svg" alt="Twitter"></span>
+                <span class="icon"><img src="twitter.svg" alt="Twitter"></span>
                 <span>twitter main</span>
             </a>
 
             <a href="https://x.com/foidhon" target="_blank" class="link-button twitter-alt">
-                <span class="icon"><img src="https://raw.githubusercontent.com/fluidhoney/fluidhoney.github.io/main/twitter.svg" alt="Twitter"></span>
+                <span class="icon"><img src="twitter.svg" alt="Twitter"></span>
                 <span>twitter alt</span>
             </a>
 
             <a href="https://discord.com/users/1194802881732292690" target="_blank" class="link-button discord">
-                <span class="icon"><img src="https://raw.githubusercontent.com/fluidhoney/fluidhoney.github.io/main/discord.svg" alt="Discord"></span>
+                <span class="icon"><img src="discord.svg" alt="Discord"></span>
                 <span>discord</span>
             </a>
 
             <a href="https://pinterest.com/fluid_honey" target="_blank" class="link-button pinterest">
-                <span class="icon"><img src="https://raw.githubusercontent.com/fluidhoney/fluidhoney.github.io/main/pinterest.svg" alt="Pinterest"></span>
+                <span class="icon"><img src="pinterest.svg" alt="Pinterest"></span>
                 <span>pinterest</span>
             </a>
 
             <a href="https://youtube.com/@fluid_honey" target="_blank" class="link-button youtube">
-                <span class="icon"><img src="https://raw.githubusercontent.com/fluidhoney/fluidhoney.github.io/main/youtube.svg" alt="YouTube"></span>
+                <span class="icon"><img src="youtube.svg" alt="YouTube"></span>
                 <span>youtube</span>
             </a>
         </div>
+
+        <div class="music-player">
+            <h3>🎵 Music Player</h3>
+            
+            <select id="songDropdown" class="song-dropdown">
+                <option value="">Select a song...</option>
+                <option value="Ночь">Ночь</option>
+                <option value="Про дурачка">Про дурачка</option>
+                <option value="Шла война">Шла война</option>
+                <option value="Лето и арбалеты">Лето и арбалеты</option>
+                <option value="Qad Tasama">Qad Tasama</option>
+            </select>
+
+            <div class="now-playing" id="nowPlaying"></div>
+
+            <div class="player-controls">
+                <button class="player-button small" id="prevBtn">⏮️</button>
+                <button class="player-button" id="playBtn">▶️ Play</button>
+                <button class="player-button" id="pauseBtn">⏸️ Pause</button>
+                <button class="player-button small" id="nextBtn">⏭️</button>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="time-display" id="timeDisplay">0:00 / 0:00</div>
+            </div>
+
+            <audio id="audioPlayer"></audio>
+        </div>
     </div>
+
+    <script>
+        const audioPlayer = document.getElementById('audioPlayer');
+        const songDropdown = document.getElementById('songDropdown');
+        const playBtn = document.getElementById('playBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressFill = document.getElementById('progressFill');
+        const timeDisplay = document.getElementById('timeDisplay');
+        const nowPlaying = document.getElementById('nowPlaying');
+
+        const songs = [
+            { title: 'Ночь', url: 'songs/Ночь.mp3' },
+            { title: 'Про дурачка', url: 'songs/Про дурачка.mp3' },
+            { title: 'Шла война', url: 'songs/Шла война.mp3' },
+            { title: 'Лето и арбалеты', url: 'songs/Лето и арбалеты.mp3' },
+            { title: 'Qad Tasama', url: 'songs/Qad Tasama.mp3' }
+        ];
+
+        let currentSongIndex = -1;
+
+        songDropdown.addEventListener('change', (e) => {
+            const selectedTitle = e.target.value;
+            if (selectedTitle) {
+                currentSongIndex = songs.findIndex(song => song.title === selectedTitle);
+                loadSong(currentSongIndex);
+                audioPlayer.play();
+                updatePlayButton();
+            }
+        });
+
+        playBtn.addEventListener('click', () => {
+            if (currentSongIndex >= 0) {
+                audioPlayer.play();
+                updatePlayButton();
+            }
+        });
+
+        pauseBtn.addEventListener('click', () => {
+            audioPlayer.pause();
+            updatePlayButton();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+            loadSong(currentSongIndex);
+            audioPlayer.play();
+            updatePlayButton();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentSongIndex = (currentSongIndex + 1) % songs.length;
+            loadSong(currentSongIndex);
+            audioPlayer.play();
+            updatePlayButton();
+        });
+
+        audioPlayer.addEventListener('ended', () => {
+            nextBtn.click();
+        });
+
+        audioPlayer.addEventListener('timeupdate', updateProgress);
+
+        progressBar.addEventListener('click', (e) => {
+            const rect = progressBar.getBoundingClientRect();
+            const percent = (e.clientX - rect.left) / rect.width;
+            audioPlayer.currentTime = percent * audioPlayer.duration;
+        });
+
+        function loadSong(index) {
+            if (index >= 0 && index < songs.length) {
+                audioPlayer.src = songs[index].url;
+                nowPlaying.textContent = `Now Playing: ${songs[index].title}`;
+                songDropdown.value = songs[index].title;
+            }
+        }
+
+        function updateProgress() {
+            if (audioPlayer.duration) {
+                const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+                progressFill.style.width = percent + '%';
+                
+                const currentMinutes = Math.floor(audioPlayer.currentTime / 60);
+                const currentSeconds = Math.floor(audioPlayer.currentTime % 60);
+                const durationMinutes = Math.floor(audioPlayer.duration / 60);
+                const durationSeconds = Math.floor(audioPlayer.duration % 60);
+                
+                timeDisplay.textContent = `${currentMinutes}:${String(currentSeconds).padStart(2, '0')} / ${durationMinutes}:${String(durationSeconds).padStart(2, '0')}`;
+            }
+        }
+
+        function updatePlayButton() {
+            if (audioPlayer.paused) {
+                playBtn.style.background = '#667eea';
+                pauseBtn.style.background = '#ccc';
+            } else {
+                playBtn.style.background = '#ccc';
+                pauseBtn.style.background = '#764ba2';
+            }
+        }
+
+        updatePlayButton();
+    </script>
 </body>
 </html>
