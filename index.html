@@ -391,11 +391,11 @@
         const songIcon = document.getElementById('songIcon');
 
         const songs = [
-            { title: 'Ночь', url: 'songs/Ночь.mp3', icon: 'noch.svg' },
-            { title: 'Про дурачка', url: 'songs/Про дурачка.mp3', icon: 'idiot.svg' },
-            { title: 'Шла война', url: 'songs/Шла война.mp3', icon: 'war.svg' },
-            { title: 'Лето и арбалеты', url: 'songs/Лето и арбалеты.mp3', icon: 'wagner.svg' },
-            { title: 'Qad Tasama', url: 'songs/Qad Tasama.mp3', icon: 'isis.svg' }
+            { title: 'Ночь', filename: 'Ночь.mp3', icon: 'noch.svg' },
+            { title: 'Про дурачка', filename: 'Про дурачка.mp3', icon: 'idiot.svg' },
+            { title: 'Шла война', filename: 'Шла война.mp3', icon: 'war.svg' },
+            { title: 'Лето и арбалеты', filename: 'Лето и арбалеты.mp3', icon: 'wagner.svg' },
+            { title: 'Qad Tasama', filename: 'Qad Tasama.mp3', icon: 'isis.svg' }
         ];
 
         let currentSongIndex = -1;
@@ -450,8 +450,8 @@
 
         function loadSong(index) {
             if (index >= 0 && index < songs.length) {
-                audioPlayer.src = songs[index].url;
                 const song = songs[index];
+                audioPlayer.src = song.filename;
                 nowPlaying.innerHTML = `<img src="${song.icon}" alt="${song.title}"> ${song.title}`;
                 songIcon.innerHTML = `<img src="${song.icon}" alt="${song.title}">`;
                 songDropdown.value = index;
