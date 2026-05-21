@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fluid_honey - Links</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .link-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 30px;
+            background: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #333;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            min-height: 60px;
+        }
+
+        .link-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            background: #f0f0f0;
+        }
+
+        .link-button:active {
+            transform: translateY(-1px);
+        }
+
+        .link-button.twitter {
+            border-left: 5px solid #1DA1F2;
+        }
+
+        .link-button.twitter:hover {
+            background: #f0f8ff;
+        }
+
+        .link-button.twitter-alt {
+            border-left: 5px solid #1DA1F2;
+        }
+
+        .link-button.twitter-alt:hover {
+            background: #f0f8ff;
+        }
+
+        .link-button.discord {
+            border-left: 5px solid #5865F2;
+        }
+
+        .link-button.discord:hover {
+            background: #f0f3ff;
+        }
+
+        .link-button.pinterest {
+            border-left: 5px solid #E60023;
+        }
+
+        .link-button.pinterest:hover {
+            background: #fff0f0;
+        }
+
+        .link-button.youtube {
+            border-left: 5px solid #FF0000;
+        }
+
+        .link-button.youtube:hover {
+            background: #fff0f0;
+        }
+
+        .icon {
+            margin-right: 12px;
+            font-size: 1.3em;
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .link-button {
+                padding: 15px 25px;
+                font-size: 1em;
+                min-height: 55px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍯 fluid_honey</h1>
+            <p>Connect with me on social media</p>
+        </div>
+
+        <div class="buttons-container">
+            <a href="https://x.com/fluid_honey" target="_blank" class="link-button twitter">
+                <span class="icon">𝕏</span>
+                <span>@fluid_honey on X</span>
+            </a>
+
+            <a href="https://x.com/foidhon" target="_blank" class="link-button twitter-alt">
+                <span class="icon">𝕏</span>
+                <span>@foidhon on X</span>
+            </a>
+
+            <a href="https://discord.com/users/1194802881732292690" target="_blank" class="link-button discord">
+                <span class="icon">💜</span>
+                <span>Discord Profile</span>
+            </a>
+
+            <a href="https://pinterest.com/fluid_honey" target="_blank" class="link-button pinterest">
+                <span class="icon">📌</span>
+                <span>Pinterest</span>
+            </a>
+
+            <a href="https://youtube.com/@fluid_honey" target="_blank" class="link-button youtube">
+                <span class="icon">▶️</span>
+                <span>YouTube Channel</span>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
