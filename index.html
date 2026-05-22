@@ -359,7 +359,7 @@
     </style>
 </head>
 <body>
-    <video class="video-background" autoplay muted loop>
+    <video class="video-background" id="videoBackground" autoplay muted loop>
         <source src="wallpaper.mp4" type="video/mp4">
     </video>
 
@@ -410,6 +410,8 @@
                 <option value="2">Шла война</option>
                 <option value="3">Лето и арбалеты</option>
                 <option value="4">Qad Tasama</option>
+                <option value="5">Трава у дома</option>
+                <option value="6">Мы идем в тишине</option>
             </select>
 
             <div class="player-controls">
@@ -436,6 +438,7 @@
     </div>
 
     <script>
+        const videoBackground = document.getElementById('videoBackground');
         const audioPlayer = document.getElementById('audioPlayer');
         const songDropdown = document.getElementById('songDropdown');
         const playPauseBtn = document.getElementById('playPauseBtn');
@@ -451,7 +454,9 @@
             { title: 'Про дурачка', filename: 'Про дурачка.mp3' },
             { title: 'Шла война', filename: 'Шла война.mp3' },
             { title: 'Лето и арбалеты', filename: 'Лето и арбалеты.mp3' },
-            { title: 'Qad Tasama', filename: 'Qad Tasama.mp3' }
+            { title: 'Qad Tasama', filename: 'Qad Tasama.mp3' },
+            { title: 'Трава у дома', filename: 'Трава у дома.mp3' },
+            { title: 'Мы идем в тишине', filename: 'Мы идем в тишине.mp3' }
         ];
 
         let currentSongIndex = -1;
@@ -464,6 +469,22 @@
                 errorMessage.classList.remove('show');
             }, 5000);
         }
+
+        function checkAndRestartVideo() {
+            if (videoBackground.paused) {
+                videoBackground.currentTime = 0;
+                videoBackground.play().catch(err => {
+                    console.error('Failed to play video:', err);
+                });
+            }
+        }
+
+        // Check video status when page becomes visible
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                checkAndRestartVideo();
+            }
+        });
 
         songDropdown.addEventListener('change', (e) => {
             const selectedIndex = parseInt(e.target.value);
