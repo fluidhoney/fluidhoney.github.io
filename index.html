@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>fluidhoney - Links</title>
+    <title>fluidhoney</title>
     <style>
         * {
             margin: 0;
@@ -56,20 +56,65 @@
             text-align: center;
             color: white;
             display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .header-title-row {
+            display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
         }
 
-        .header img {
-            width: 40px;
-            height: 40px;
+        .header-pfp {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+
+        .header-content {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        .header-left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-pfp-large {
+            width: 100px;
+            height: 100px;
             object-fit: contain;
         }
 
         .header h1 {
             font-size: 2.5em;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .bio-box {
+            background-color: #D52D00;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+            text-align: left;
+            font-size: 0.9em;
+            line-height: 1.5;
+            flex: 1;
+        }
+
+        .bio-box:hover {
+            opacity: 1;
         }
 
         .buttons-container {
@@ -165,8 +210,8 @@
             border: none;
             cursor: pointer;
             transition: transform 0.2s ease;
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -203,7 +248,7 @@
 
         .progress-fill {
             height: 100%;
-            background: rgba(0, 0, 0, 0.3);
+            background: #fd537e;
             width: 0%;
             transition: width 0.1s linear;
         }
@@ -221,20 +266,20 @@
             border: none;
             border-radius: 6px;
             font-size: 1em;
-            background: rgba(255, 255, 255, 0.9);
-            color: #333;
+            background: #fd537e;
+            color: black;
             cursor: pointer;
             font-weight: 500;
             margin-bottom: 15px;
         }
 
         .song-dropdown:hover {
-            background: white;
+            background: #fd537e;
         }
 
         .song-dropdown:focus {
             outline: none;
-            background: white;
+            background: #fd537e;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
         }
 
@@ -270,6 +315,22 @@
                 font-size: 2em;
             }
 
+            .header-content {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .header-pfp-large {
+                width: 80px;
+                height: 80px;
+            }
+
+            .bio-box {
+                width: 100%;
+                font-size: 0.85em;
+                padding: 12px;
+            }
+
             .link-button {
                 padding: 15px 25px;
                 font-size: 1em;
@@ -277,8 +338,8 @@
             }
 
             .player-button {
-                width: 45px;
-                height: 45px;
+                width: 35px;
+                height: 35px;
             }
         }
     </style>
@@ -290,8 +351,13 @@
 
     <div class="container">
         <div class="header">
-            <img src="pfp.webp" alt="Profile Picture">
             <h1>fluidhoney</h1>
+            <div class="header-content">
+                <div class="header-left">
+                    <img src="pfp.webp" alt="Profile Picture" class="header-pfp-large">
+                </div>
+                <div class="bio-box">im very lesbian, very transsexual, and very marxist. i think code geass is a great show, cs_office is the best cs map, and chopin is the greatest musician of all time.</div>
+            </div>
         </div>
 
         <div class="buttons-container">
@@ -306,7 +372,7 @@
             </a>
 
             <a href="https://discord.com/users/1194802881732292690" target="_blank" class="link-button discord">
-                <span class="icon"><img src="discord.svg" alt="Discord"></span>
+                <span class="icon"><img src="discord.png" alt="Discord"></span>
                 <span>discord</span>
             </a>
 
@@ -316,7 +382,7 @@
             </a>
 
             <a href="https://pinterest.com/fluid_honey" target="_blank" class="link-button pinterest">
-                <span class="icon"><img src="pinterest.svg" alt="Pinterest"></span>
+                <span class="icon"><img src="pinterest.png" alt="Pinterest"></span>
                 <span>pinterest</span>
             </a>
         </div>
@@ -325,7 +391,6 @@
             <div class="error-message" id="errorMessage"></div>
 
             <select id="songDropdown" class="song-dropdown">
-                <option value="">Select a song...</option>
                 <option value="0">Ночь</option>
                 <option value="1">Про дурачка</option>
                 <option value="2">Шла война</option>
@@ -411,8 +476,6 @@
                     audioPlayer.pause();
                 }
                 updatePlayPauseButton();
-            } else {
-                showError('Please select a song first');
             }
         });
 
@@ -497,6 +560,16 @@
                 playPauseBtn.title = 'Pause';
             }
         }
+
+        // Auto-play Ночь on page load
+        window.addEventListener('load', () => {
+            currentSongIndex = 0;
+            loadSong(0);
+            audioPlayer.play().catch(err => {
+                showError('Failed to play: ' + err.message);
+            });
+            updatePlayPauseButton();
+        });
 
         updatePlayPauseButton();
     </script>
