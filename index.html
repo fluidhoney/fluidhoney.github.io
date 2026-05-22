@@ -183,15 +183,8 @@
             padding: 10px 10px;
         }
 
-        .song-option-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
         .song-dropdown {
-            flex: 1;
+            width: 100%;
             padding: 12px;
             border: 2px solid #667eea;
             border-radius: 6px;
@@ -200,6 +193,7 @@
             color: #333;
             cursor: pointer;
             font-weight: 500;
+            margin-bottom: 15px;
         }
 
         .song-dropdown:hover {
@@ -210,23 +204,6 @@
             outline: none;
             border-color: #764ba2;
             box-shadow: 0 0 5px rgba(118, 75, 162, 0.3);
-        }
-
-        .song-icon {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f0f0f0;
-            border-radius: 6px;
-        }
-
-        .song-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            padding: 5px;
         }
 
         .progress-container {
@@ -257,32 +234,22 @@
         }
 
         .now-playing {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
             text-align: center;
             color: #667eea;
             font-weight: 600;
             margin-bottom: 15px;
             font-size: 0.95em;
-            min-height: 30px;
-        }
-
-        .now-playing img {
-            width: 25px;
-            height: 25px;
-            object-fit: contain;
+            min-height: 20px;
         }
 
         .error-message {
             color: #d32f2f;
             background: #ffebee;
-            padding: 10px;
+            padding: 12px;
             border-radius: 6px;
             margin-bottom: 15px;
-            font-size: 0.9em;
             display: none;
+            font-size: 0.9em;
         }
 
         .error-message.show {
@@ -311,14 +278,6 @@
 
             .player-controls {
                 gap: 8px;
-            }
-
-            .song-option-container {
-                flex-direction: column;
-            }
-
-            .song-dropdown {
-                width: 100%;
             }
         }
     </style>
@@ -361,17 +320,14 @@
             
             <div class="error-message" id="errorMessage"></div>
 
-            <div class="song-option-container">
-                <select id="songDropdown" class="song-dropdown">
-                    <option value="">Select a song...</option>
-                    <option value="0">Ночь</option>
-                    <option value="1">Про дурачка</option>
-                    <option value="2">Шла война</option>
-                    <option value="3">Лето и арбалеты</option>
-                    <option value="4">Qad Tasama</option>
-                </select>
-                <div class="song-icon" id="songIcon"></div>
-            </div>
+            <select id="songDropdown" class="song-dropdown">
+                <option value="">Select a song...</option>
+                <option value="0">Ночь</option>
+                <option value="1">Про дурачка</option>
+                <option value="2">Шла война</option>
+                <option value="3">Лето и арбалеты</option>
+                <option value="4">Qad Tasama</option>
+            </select>
 
             <div class="now-playing" id="nowPlaying"></div>
 
@@ -404,15 +360,14 @@
         const progressFill = document.getElementById('progressFill');
         const timeDisplay = document.getElementById('timeDisplay');
         const nowPlaying = document.getElementById('nowPlaying');
-        const songIcon = document.getElementById('songIcon');
         const errorMessage = document.getElementById('errorMessage');
 
         const songs = [
-            { title: 'Ночь', filename: 'Ночь.mp3', icon: 'noch.svg' },
-            { title: 'Про дурачка', filename: 'Про дурачка.mp3', icon: 'idiot.svg' },
-            { title: 'Шла война', filename: 'Шла война.mp3', icon: 'war.svg' },
-            { title: 'Лето и арбалеты', filename: 'Лето и арбалеты.mp3', icon: 'wagner.svg' },
-            { title: 'Qad Tasama', filename: 'Qad Tasama.mp3', icon: 'isis.svg' }
+            { title: 'Ночь', filename: 'Ночь.mp3' },
+            { title: 'Про дурачка', filename: 'Про дурачка.mp3' },
+            { title: 'Шла война', filename: 'Шла война.mp3' },
+            { title: 'Лето и арбалеты', filename: 'Лето и арбалеты.mp3' },
+            { title: 'Qad Tasama', filename: 'Qad Tasama.mp3' }
         ];
 
         let currentSongIndex = -1;
@@ -420,6 +375,7 @@
         function showError(msg) {
             errorMessage.textContent = msg;
             errorMessage.classList.add('show');
+            console.error('Player Error:', msg);
             setTimeout(() => {
                 errorMessage.classList.remove('show');
             }, 5000);
@@ -427,11 +383,11 @@
 
         songDropdown.addEventListener('change', (e) => {
             const selectedIndex = parseInt(e.target.value);
-            if (selectedIndex >= 0) {
+            if (selectedIndex >= 0 && selectedIndex < songs.length) {
                 currentSongIndex = selectedIndex;
                 loadSong(currentSongIndex);
                 audioPlayer.play().catch(err => {
-                    showError('Could not play audio. Please check if the file exists.');
+                    showError('Failed to play: ' + err.message);
                 });
                 updatePlayButton();
             }
@@ -440,11 +396,11 @@
         playBtn.addEventListener('click', () => {
             if (currentSongIndex >= 0) {
                 audioPlayer.play().catch(err => {
-                    showError('Could not play audio.');
+                    showError('Failed to play: ' + err.message);
                 });
                 updatePlayButton();
             } else {
-                showError('Please select a song first.');
+                showError('Please select a song first');
             }
         });
 
@@ -457,7 +413,7 @@
             currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
             loadSong(currentSongIndex);
             audioPlayer.play().catch(err => {
-                showError('Could not play audio.');
+                showError('Failed to play: ' + err.message);
             });
             updatePlayButton();
         });
@@ -466,7 +422,7 @@
             currentSongIndex = (currentSongIndex + 1) % songs.length;
             loadSong(currentSongIndex);
             audioPlayer.play().catch(err => {
-                showError('Could not play audio.');
+                showError('Failed to play: ' + err.message);
             });
             updatePlayButton();
         });
@@ -477,8 +433,20 @@
 
         audioPlayer.addEventListener('timeupdate', updateProgress);
 
-        audioPlayer.addEventListener('error', (e) => {
-            showError('Error loading audio file: ' + (audioPlayer.error?.message || 'Unknown error'));
+        audioPlayer.addEventListener('error', () => {
+            if (audioPlayer.error) {
+                let errorMsg = 'Error loading audio';
+                if (audioPlayer.error.code === audioPlayer.error.MEDIA_ERR_ABORTED) {
+                    errorMsg = 'Audio loading was aborted';
+                } else if (audioPlayer.error.code === audioPlayer.error.MEDIA_ERR_NETWORK) {
+                    errorMsg = 'Network error while loading audio';
+                } else if (audioPlayer.error.code === audioPlayer.error.MEDIA_ERR_DECODE) {
+                    errorMsg = 'Audio file could not be decoded';
+                } else if (audioPlayer.error.code === audioPlayer.error.MEDIA_ERR_SRC_NOT_SUPPORTED) {
+                    errorMsg = 'Audio file format not supported or file not found';
+                }
+                showError(errorMsg);
+            }
         });
 
         progressBar.addEventListener('click', (e) => {
@@ -493,9 +461,9 @@
             if (index >= 0 && index < songs.length) {
                 const song = songs[index];
                 audioPlayer.src = song.filename;
-                nowPlaying.innerHTML = `<img src="${song.icon}" alt="${song.title}"> ${song.title}`;
-                songIcon.innerHTML = `<img src="${song.icon}" alt="${song.title}">`;
+                nowPlaying.textContent = 'Now Playing: ' + song.title;
                 songDropdown.value = index;
+                console.log('Loading:', song.filename);
             }
         }
 
