@@ -11,6 +11,10 @@
             box-sizing: border-box;
         }
 
+        html {
+            height: 100%;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             min-height: 100vh;
@@ -19,7 +23,7 @@
             align-items: center;
             padding: 20px;
             position: relative;
-            overflow: hidden;
+            overflow-y: auto;
         }
 
         body::before {
@@ -50,6 +54,7 @@
             gap: 30px;
             max-width: 500px;
             width: 100%;
+            padding: 20px 0;
         }
 
         .header {
@@ -187,6 +192,11 @@
             object-fit: contain;
         }
 
+        .link-button.youtube .icon {
+            width: 35px;
+            height: 35px;
+        }
+
         .music-player {
             width: 100%;
             background-color: #111184;
@@ -288,15 +298,6 @@
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
         }
 
-        .now-playing {
-            text-align: center;
-            color: white;
-            font-weight: 600;
-            margin-bottom: 15px;
-            font-size: 0.95em;
-            min-height: 20px;
-        }
-
         .error-message {
             color: #d32f2f;
             background: #ffebee;
@@ -316,6 +317,14 @@
         }
 
         @media (max-width: 480px) {
+            body {
+                align-items: flex-start;
+            }
+
+            .container {
+                padding: 20px 0;
+            }
+
             .header h1 {
                 font-size: 2em;
             }
@@ -403,8 +412,6 @@
                 <option value="4">Qad Tasama</option>
             </select>
 
-            <div class="now-playing" id="nowPlaying"></div>
-
             <div class="player-controls">
                 <button class="player-button" id="prevBtn" title="Previous Song">
                     <img src="previous.png" alt="Previous">
@@ -437,7 +444,6 @@
         const progressBar = document.getElementById('progressBar');
         const progressFill = document.getElementById('progressFill');
         const timeDisplay = document.getElementById('timeDisplay');
-        const nowPlaying = document.getElementById('nowPlaying');
         const errorMessage = document.getElementById('errorMessage');
 
         const songs = [
@@ -536,7 +542,6 @@
             if (index >= 0 && index < songs.length) {
                 const song = songs[index];
                 audioPlayer.src = song.filename;
-                nowPlaying.textContent = song.title;
                 songDropdown.value = index;
                 console.log('Loading:', song.filename);
             }
