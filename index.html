@@ -13,19 +13,41 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: -2;
+        }
+
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
         }
 
         .container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 40px;
+            gap: 30px;
             max-width: 500px;
             width: 100%;
         }
@@ -33,12 +55,20 @@
         .header {
             text-align: center;
             color: white;
-            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .header img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
         }
 
         .header h1 {
             font-size: 2.5em;
-            margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
@@ -54,23 +84,23 @@
             align-items: center;
             justify-content: center;
             padding: 18px 30px;
-            background: white;
             border: none;
             border-radius: 12px;
             font-size: 1.1em;
             font-weight: 600;
-            color: #333;
+            color: white;
             cursor: pointer;
             text-decoration: none;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             min-height: 60px;
+            opacity: 0.7;
         }
 
         .link-button:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            background: #f0f0f0;
+            opacity: 1;
         }
 
         .link-button:active {
@@ -78,43 +108,19 @@
         }
 
         .link-button.twitter {
-            border-left: 5px solid #1DA1F2;
-        }
-
-        .link-button.twitter:hover {
-            background: #f0f8ff;
-        }
-
-        .link-button.twitter-alt {
-            border-left: 5px solid #1DA1F2;
-        }
-
-        .link-button.twitter-alt:hover {
-            background: #f0f8ff;
+            background-color: #2daae1;
         }
 
         .link-button.discord {
-            border-left: 5px solid #5865F2;
-        }
-
-        .link-button.discord:hover {
-            background: #f0f3ff;
-        }
-
-        .link-button.pinterest {
-            border-left: 5px solid #E60023;
-        }
-
-        .link-button.pinterest:hover {
-            background: #fff0f0;
+            background-color: #7289d9;
         }
 
         .link-button.youtube {
-            border-left: 5px solid #FF0000;
+            background-color: #ff0000;
         }
 
-        .link-button.youtube:hover {
-            background: #fff0f0;
+        .link-button.pinterest {
+            background-color: #bd071b;
         }
 
         .icon {
@@ -135,86 +141,61 @@
 
         .music-player {
             width: 100%;
-            background: white;
+            background-color: #5BCEFA;
             border-radius: 12px;
             padding: 20px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            margin-top: 20px;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
         }
 
-        .music-player h3 {
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 1.2em;
-            text-align: center;
+        .music-player:hover {
+            opacity: 1;
         }
 
         .player-controls {
             display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 15px;
             align-items: center;
+            justify-content: center;
         }
 
         .player-button {
-            background: #667eea;
-            color: white;
+            background: none;
             border: none;
-            padding: 10px 15px;
-            border-radius: 6px;
             cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            flex: 1;
-            font-size: 0.9em;
+            transition: transform 0.2s ease;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
         }
 
         .player-button:hover {
-            background: #764ba2;
-            transform: translateY(-2px);
+            transform: scale(1.1);
         }
 
         .player-button:active {
-            transform: translateY(0);
+            transform: scale(0.95);
         }
 
-        .player-button.small {
-            flex: 0.5;
-            padding: 10px 10px;
-        }
-
-        .song-dropdown {
+        .player-button img {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #667eea;
-            border-radius: 6px;
-            font-size: 1em;
-            background: white;
-            color: #333;
-            cursor: pointer;
-            font-weight: 500;
-            margin-bottom: 15px;
-        }
-
-        .song-dropdown:hover {
-            border-color: #764ba2;
-        }
-
-        .song-dropdown:focus {
-            outline: none;
-            border-color: #764ba2;
-            box-shadow: 0 0 5px rgba(118, 75, 162, 0.3);
+            height: 100%;
+            object-fit: contain;
         }
 
         .progress-container {
             width: 100%;
-            margin-bottom: 10px;
+            margin-top: 15px;
         }
 
         .progress-bar {
             width: 100%;
             height: 6px;
-            background: #e0e0e0;
+            background: rgba(255, 255, 255, 0.5);
             border-radius: 3px;
             cursor: pointer;
             overflow: hidden;
@@ -222,20 +203,44 @@
 
         .progress-fill {
             height: 100%;
-            background: #667eea;
+            background: rgba(0, 0, 0, 0.3);
             width: 0%;
             transition: width 0.1s linear;
         }
 
         .time-display {
             font-size: 0.85em;
-            color: #666;
+            color: rgba(0, 0, 0, 0.7);
             text-align: center;
+            margin-top: 8px;
+        }
+
+        .song-dropdown {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            cursor: pointer;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .song-dropdown:hover {
+            background: white;
+        }
+
+        .song-dropdown:focus {
+            outline: none;
+            background: white;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
         }
 
         .now-playing {
             text-align: center;
-            color: #667eea;
+            color: rgba(0, 0, 0, 0.8);
             font-weight: 600;
             margin-bottom: 15px;
             font-size: 0.95em;
@@ -257,8 +262,7 @@
         }
 
         audio {
-            width: 100%;
-            margin-top: 10px;
+            display: none;
         }
 
         @media (max-width: 480px) {
@@ -272,19 +276,21 @@
                 min-height: 55px;
             }
 
-            .music-player {
-                padding: 15px;
-            }
-
-            .player-controls {
-                gap: 8px;
+            .player-button {
+                width: 45px;
+                height: 45px;
             }
         }
     </style>
 </head>
 <body>
+    <video class="video-background" autoplay muted loop>
+        <source src="wallpaper.mp4" type="video/mp4">
+    </video>
+
     <div class="container">
         <div class="header">
+            <img src="pfp.webp" alt="Profile Picture">
             <h1>fluidhoney</h1>
         </div>
 
@@ -294,7 +300,7 @@
                 <span>twitter main</span>
             </a>
 
-            <a href="https://x.com/foidhon" target="_blank" class="link-button twitter-alt">
+            <a href="https://x.com/foidhon" target="_blank" class="link-button twitter">
                 <span class="icon"><img src="twitter.svg" alt="Twitter"></span>
                 <span>twitter alt</span>
             </a>
@@ -304,20 +310,18 @@
                 <span>discord</span>
             </a>
 
-            <a href="https://pinterest.com/fluid_honey" target="_blank" class="link-button pinterest">
-                <span class="icon"><img src="pinterest.svg" alt="Pinterest"></span>
-                <span>pinterest</span>
-            </a>
-
             <a href="https://youtube.com/@fluid_honey" target="_blank" class="link-button youtube">
                 <span class="icon"><img src="youtube.svg" alt="YouTube"></span>
                 <span>youtube</span>
             </a>
+
+            <a href="https://pinterest.com/fluid_honey" target="_blank" class="link-button pinterest">
+                <span class="icon"><img src="pinterest.svg" alt="Pinterest"></span>
+                <span>pinterest</span>
+            </a>
         </div>
 
         <div class="music-player">
-            <h3>🎵 Music Player</h3>
-            
             <div class="error-message" id="errorMessage"></div>
 
             <select id="songDropdown" class="song-dropdown">
@@ -332,10 +336,15 @@
             <div class="now-playing" id="nowPlaying"></div>
 
             <div class="player-controls">
-                <button class="player-button small" id="prevBtn">⏮️</button>
-                <button class="player-button" id="playBtn">▶️ Play</button>
-                <button class="player-button" id="pauseBtn">⏸️ Pause</button>
-                <button class="player-button small" id="nextBtn">⏭️</button>
+                <button class="player-button" id="prevBtn" title="Previous Song">
+                    <img src="previous.png" alt="Previous">
+                </button>
+                <button class="player-button" id="playPauseBtn" title="Play/Pause">
+                    <img src="play.png" alt="Play">
+                </button>
+                <button class="player-button" id="nextBtn" title="Next Song">
+                    <img src="next.png" alt="Next">
+                </button>
             </div>
 
             <div class="progress-container">
@@ -352,8 +361,7 @@
     <script>
         const audioPlayer = document.getElementById('audioPlayer');
         const songDropdown = document.getElementById('songDropdown');
-        const playBtn = document.getElementById('playBtn');
-        const pauseBtn = document.getElementById('pauseBtn');
+        const playPauseBtn = document.getElementById('playPauseBtn');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
         const progressBar = document.getElementById('progressBar');
@@ -389,24 +397,23 @@
                 audioPlayer.play().catch(err => {
                     showError('Failed to play: ' + err.message);
                 });
-                updatePlayButton();
+                updatePlayPauseButton();
             }
         });
 
-        playBtn.addEventListener('click', () => {
+        playPauseBtn.addEventListener('click', () => {
             if (currentSongIndex >= 0) {
-                audioPlayer.play().catch(err => {
-                    showError('Failed to play: ' + err.message);
-                });
-                updatePlayButton();
+                if (audioPlayer.paused) {
+                    audioPlayer.play().catch(err => {
+                        showError('Failed to play: ' + err.message);
+                    });
+                } else {
+                    audioPlayer.pause();
+                }
+                updatePlayPauseButton();
             } else {
                 showError('Please select a song first');
             }
-        });
-
-        pauseBtn.addEventListener('click', () => {
-            audioPlayer.pause();
-            updatePlayButton();
         });
 
         prevBtn.addEventListener('click', () => {
@@ -415,7 +422,7 @@
             audioPlayer.play().catch(err => {
                 showError('Failed to play: ' + err.message);
             });
-            updatePlayButton();
+            updatePlayPauseButton();
         });
 
         nextBtn.addEventListener('click', () => {
@@ -424,7 +431,7 @@
             audioPlayer.play().catch(err => {
                 showError('Failed to play: ' + err.message);
             });
-            updatePlayButton();
+            updatePlayPauseButton();
         });
 
         audioPlayer.addEventListener('ended', () => {
@@ -461,7 +468,7 @@
             if (index >= 0 && index < songs.length) {
                 const song = songs[index];
                 audioPlayer.src = song.filename;
-                nowPlaying.textContent = 'Now Playing: ' + song.title;
+                nowPlaying.textContent = song.title;
                 songDropdown.value = index;
                 console.log('Loading:', song.filename);
             }
@@ -481,17 +488,17 @@
             }
         }
 
-        function updatePlayButton() {
+        function updatePlayPauseButton() {
             if (audioPlayer.paused) {
-                playBtn.style.background = '#667eea';
-                pauseBtn.style.background = '#ccc';
+                playPauseBtn.querySelector('img').src = 'play.png';
+                playPauseBtn.title = 'Play';
             } else {
-                playBtn.style.background = '#ccc';
-                pauseBtn.style.background = '#764ba2';
+                playPauseBtn.querySelector('img').src = 'pause.png';
+                playPauseBtn.title = 'Pause';
             }
         }
 
-        updatePlayButton();
+        updatePlayPauseButton();
     </script>
 </body>
 </html>
