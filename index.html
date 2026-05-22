@@ -78,7 +78,7 @@
         .header-content {
             display: flex;
             gap: 15px;
-            align-items: flex-start;
+            align-items: center;
             width: 100%;
         }
 
@@ -87,6 +87,7 @@
             flex-direction: column;
             align-items: center;
             gap: 10px;
+            flex-shrink: 0;
         }
 
         .header-pfp-large {
@@ -101,7 +102,7 @@
         }
 
         .bio-box {
-            background-color: #D52D00;
+            background-color: #111184;
             color: white;
             padding: 15px;
             border-radius: 8px;
@@ -111,6 +112,8 @@
             font-size: 0.9em;
             line-height: 1.5;
             flex: 1;
+            display: flex;
+            align-items: center;
         }
 
         .bio-box:hover {
@@ -165,7 +168,7 @@
         }
 
         .link-button.pinterest {
-            background-color: #bd071b;
+            background-color: #cf0b0f;
         }
 
         .icon {
@@ -186,7 +189,7 @@
 
         .music-player {
             width: 100%;
-            background-color: #5BCEFA;
+            background-color: #111184;
             border-radius: 12px;
             padding: 20px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -210,8 +213,8 @@
             border: none;
             cursor: pointer;
             transition: transform 0.2s ease;
-            width: 40px;
-            height: 40px;
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -248,16 +251,17 @@
 
         .progress-fill {
             height: 100%;
-            background: #fd537e;
+            background: #6a0985;
             width: 0%;
             transition: width 0.1s linear;
         }
 
         .time-display {
             font-size: 0.85em;
-            color: rgba(0, 0, 0, 0.7);
+            color: white;
             text-align: center;
             margin-top: 8px;
+            font-weight: 600;
         }
 
         .song-dropdown {
@@ -265,27 +269,28 @@
             padding: 12px;
             border: none;
             border-radius: 6px;
-            font-size: 1em;
-            background: #fd537e;
-            color: black;
+            font-size: 1.1em;
+            font-weight: 600;
+            background: #6a0985;
+            color: white;
             cursor: pointer;
-            font-weight: 500;
             margin-bottom: 15px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         .song-dropdown:hover {
-            background: #fd537e;
+            background: #6a0985;
         }
 
         .song-dropdown:focus {
             outline: none;
-            background: #fd537e;
+            background: #6a0985;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
         }
 
         .now-playing {
             text-align: center;
-            color: rgba(0, 0, 0, 0.8);
+            color: white;
             font-weight: 600;
             margin-bottom: 15px;
             font-size: 0.95em;
@@ -338,8 +343,8 @@
             }
 
             .player-button {
-                width: 35px;
-                height: 35px;
+                width: 28px;
+                height: 28px;
             }
         }
     </style>
@@ -561,13 +566,10 @@
             }
         }
 
-        // Auto-play Ночь on page load
+        // Select Ночь by default on page load
         window.addEventListener('load', () => {
             currentSongIndex = 0;
             loadSong(0);
-            audioPlayer.play().catch(err => {
-                showError('Failed to play: ' + err.message);
-            });
             updatePlayPauseButton();
         });
 
